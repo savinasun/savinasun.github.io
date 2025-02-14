@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>ML Notes for Quantitative Finance Interviews | Your awesome title</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="ML Notes for Quantitative Finance Interviews" />
+<meta name="author" content="GitHub User" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Linear Models" />
+<meta property="og:description" content="Linear Models" />
+<link rel="canonical" href="http://localhost:4000/misc/2024/12/21/blog-post-title-from-file-name.html" />
+<meta property="og:url" content="http://localhost:4000/misc/2024/12/21/blog-post-title-from-file-name.html" />
+<meta property="og:site_name" content="Your awesome title" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-12-21T00:00:00-05:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="ML Notes for Quantitative Finance Interviews" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"GitHub User"},"dateModified":"2024-12-21T00:00:00-05:00","datePublished":"2024-12-21T00:00:00-05:00","description":"Linear Models","headline":"ML Notes for Quantitative Finance Interviews","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/misc/2024/12/21/blog-post-title-from-file-name.html"},"url":"http://localhost:4000/misc/2024/12/21/blog-post-title-from-file-name.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css">
+  <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Your awesome title" />
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Your awesome title</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">ML Notes for Quantitative Finance Interviews</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-12-21T00:00:00-05:00" itemprop="datePublished">
+        Dec 21, 2024
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h3 id="linear-models">Linear Models</h3>
+
+<p>For details, you may refer to ESL Chapter3 or PRML.</p>
+
+<h3 id="classification-with-linear-models">Classification with Linear Models</h3>
+
+<p>Logistic regression is one of the generalized linear models to perform classification tasks. For ease of discussion, we will focus on the binary response case. We call logistic regression linear models that it assumes the log-odds of an observation $y$ can be expressed as a linear function of the $K$ input variables $\mathbf{x}:=(x_1, x_2, …, x_K)$:</p>
+
+\[\log{\frac{p(x)}{1-p(x)}} = \sum_{j=0}^K \beta_j x_j \tag{1}\]
+
+<p>Here $p(x)$ represents the probability of response being true (i.e. $y=1$) and we call $\frac{p(x)}{1-p(x)}$ the “odds” of the response being true, here the function which links <em>log(odds)</em> to probability function $p(x)$ is called “link function” in GLM, in the case of logistic regression, link function is the <strong>**logit</strong>** function:</p>
+
+\[p(z) = \frac{exp(z)}{1-exp(z)}. \tag{2}\]
+
+<p>We assumes the coefficients of features are “mutliplicative in odds”, which means they contribute independently to <em>log(odds):</em></p>
+
+\[z=\sum_{j=0}^K \beta_j x_j. \tag{3}\]
+
+<p>In (2), the function is also called the sigmoid of  $z$ , which maps the real line to the interval $(0, 1)$, and is approximately linear near the origin. A useful fact about $p(z)$ is that the derivative</p>
+
+\[p'(z)=p(z)(1−p(z)).\]
+
+<p>Logistic regression does not has an analytical solution, to solve the problem, we may find out the set of parameter $\mathbb{\beta}:=(\beta_0, \beta_1,…,\beta_K)$ which <strong>maximizes the log-likelihood</strong> of the observations, which can be expressed as the product of the predicted probabilities of the $N$ individual observations:</p>
+
+\[\mathcal{L}_{\beta}(\mathbf{Y=(y_0, y_1,..., y_N)^T}|\mathbf{X}) := \sum_{i=0}^N \log{\mathbb{P}(y=y_i)} \\
+= \sum_{i=0, y_i=1}^N \log{\mathbb{P}(y=1)} + \sum_{i=0, y_i=0}^N \log{\mathbb{P}(y=0)}\]
+
+<p>To estimate the parameter vector $\beta$ consider the $N$ observations with labels either 0 or 1. Mathematically, For samples labeled as <strong>True</strong>, it relates to  is as large as possible. And for samples labeled as <strong>False</strong>, we try to find $\beta$ such that the product of all likelihood is as small as possible, in other words $1 — \mathbb{P}(y_i)$ should be as close to 1 as possible.</p>
+
+<p>Therefore, we aim to solve</p>
+
+\[\max_{\beta} \mathcal{L}_{\beta}(\mathbf{Y}|\mathbf{X}) = \sum_{i=0, Y_i=1}^N \log{\mathbb{P}(y_i)} +\]
+
+<p>From what discussed above, we have reached the most important conclusion about logistic regression that it is coordinate-free.</p>
+
+<h3 id="decision-trees">Decision Trees</h3>
+
+<h4 id="id-3-algorithm-only-classification">ID-3 Algorithm (Only Classification)</h4>
+
+<p>chooses the splits which best reduces the <strong>entropy</strong> in the subsets versus the original datasets, or and <strong>information gain(a reduction in entropy)</strong></p>
+
+<h4 id="c45-algorithm">C4.5 Algorithm</h4>
+
+<p>Consider <strong>gain ratio</strong> instead of information gain,</p>
+
+<p><strong>pruning</strong>: removing nodes from the tree that adds to complexity, but lead to overfitting</p>
+
+<h4 id="cart-algorithm-classification-and-regression-trees">CART Algorithm (Classification And Regression Trees)</h4>
+
+<p>CART is an alternative to ID3/C4.5 which extends to include regression, it uses gini index as the metric for classification and uses variance reduction as the metric for regression.</p>
+
+<p>We can compute G(S) for each attribute a, and choose the attribute that minimizes G(S)</p>
+
+<h4 id="cons">Cons</h4>
+
+<p>Decision trees are very powerful tools that they can find complex non-linear relationships in the training data, however, they are also highly sensitive to the training data, which means it has high variance in training. To solve the problem, we may use ensemble techinque.Ensemble</p>
+
+<h3 id="ensemble">Ensemble</h3>
+
+<h3 id="reference">Reference</h3>
+
+<ul>
+  <li>https://win-vector.com/2011/09/14/the-simpler-derivation-of-logistic-regression/</li>
+</ul>
+
+  </div><a class="u-url" href="/misc/2024/12/21/blog-post-title-from-file-name.html" hidden></a>
+</article>
+
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    }
+  };
+  </script>
+  <script id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+  </script>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <path d="M12.8 16C12.8 8.978 7.022 3.2 0 3.2V0c8.777 0 16 7.223 16 16h-3.2zM2.194
+                11.61c1.21 0 2.195.985 2.195 2.196 0 1.21-.99 2.194-2.2 2.194C.98 16 0 15.017 0
+                13.806c0-1.21.983-2.195 2.194-2.195zM10.606
+                16h-3.11c0-4.113-3.383-7.497-7.496-7.497v-3.11c5.818 0 10.606 4.79 10.606 10.607z"
+              />
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">GitHub User</li>
+          <li><a class="u-email" href="mailto:your-email@domain.com">your-email@domain.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

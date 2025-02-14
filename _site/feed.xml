@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2025-02-14T16:53:57-05:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Your awesome title</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+</subtitle><author><name>GitHub User</name><email>your-email@domain.com</email></author><entry><title type="html">ML Notes for Quantitative Finance Interviews</title><link href="http://localhost:4000/misc/2024/12/21/blog-post-title-from-file-name.html" rel="alternate" type="text/html" title="ML Notes for Quantitative Finance Interviews" /><published>2024-12-21T00:00:00-05:00</published><updated>2024-12-21T00:00:00-05:00</updated><id>http://localhost:4000/misc/2024/12/21/blog-post-title-from-file-name</id><content type="html" xml:base="http://localhost:4000/misc/2024/12/21/blog-post-title-from-file-name.html"><![CDATA[<h3 id="linear-models">Linear Models</h3>
+
+<p>For details, you may refer to ESL Chapter3 or PRML.</p>
+
+<h3 id="classification-with-linear-models">Classification with Linear Models</h3>
+
+<p>Logistic regression is one of the generalized linear models to perform classification tasks. For ease of discussion, we will focus on the binary response case. We call logistic regression linear models that it assumes the log-odds of an observation $y$ can be expressed as a linear function of the $K$ input variables $\mathbf{x}:=(x_1, x_2, …, x_K)$:</p>
+
+\[\log{\frac{p(x)}{1-p(x)}} = \sum_{j=0}^K \beta_j x_j \tag{1}\]
+
+<p>Here $p(x)$ represents the probability of response being true (i.e. $y=1$) and we call $\frac{p(x)}{1-p(x)}$ the “odds” of the response being true, here the function which links <em>log(odds)</em> to probability function $p(x)$ is called “link function” in GLM, in the case of logistic regression, link function is the <strong>**logit</strong>** function:</p>
+
+\[p(z) = \frac{exp(z)}{1-exp(z)}. \tag{2}\]
+
+<p>We assumes the coefficients of features are “mutliplicative in odds”, which means they contribute independently to <em>log(odds):</em></p>
+
+\[z=\sum_{j=0}^K \beta_j x_j. \tag{3}\]
+
+<p>In (2), the function is also called the sigmoid of  $z$ , which maps the real line to the interval $(0, 1)$, and is approximately linear near the origin. A useful fact about $p(z)$ is that the derivative</p>
+
+\[p'(z)=p(z)(1−p(z)).\]
+
+<p>Logistic regression does not has an analytical solution, to solve the problem, we may find out the set of parameter $\mathbb{\beta}:=(\beta_0, \beta_1,…,\beta_K)$ which <strong>maximizes the log-likelihood</strong> of the observations, which can be expressed as the product of the predicted probabilities of the $N$ individual observations:</p>
+
+\[\mathcal{L}_{\beta}(\mathbf{Y=(y_0, y_1,..., y_N)^T}|\mathbf{X}) := \sum_{i=0}^N \log{\mathbb{P}(y=y_i)} \\
+= \sum_{i=0, y_i=1}^N \log{\mathbb{P}(y=1)} + \sum_{i=0, y_i=0}^N \log{\mathbb{P}(y=0)}\]
+
+<p>To estimate the parameter vector $\beta$ consider the $N$ observations with labels either 0 or 1. Mathematically, For samples labeled as <strong>True</strong>, it relates to  is as large as possible. And for samples labeled as <strong>False</strong>, we try to find $\beta$ such that the product of all likelihood is as small as possible, in other words $1 — \mathbb{P}(y_i)$ should be as close to 1 as possible.</p>
+
+<p>Therefore, we aim to solve</p>
+
+\[\max_{\beta} \mathcal{L}_{\beta}(\mathbf{Y}|\mathbf{X}) = \sum_{i=0, Y_i=1}^N \log{\mathbb{P}(y_i)} +\]
+
+<p>From what discussed above, we have reached the most important conclusion about logistic regression that it is coordinate-free.</p>
+
+<h3 id="decision-trees">Decision Trees</h3>
+
+<h4 id="id-3-algorithm-only-classification">ID-3 Algorithm (Only Classification)</h4>
+
+<p>chooses the splits which best reduces the <strong>entropy</strong> in the subsets versus the original datasets, or and <strong>information gain(a reduction in entropy)</strong></p>
+
+<h4 id="c45-algorithm">C4.5 Algorithm</h4>
+
+<p>Consider <strong>gain ratio</strong> instead of information gain,</p>
+
+<p><strong>pruning</strong>: removing nodes from the tree that adds to complexity, but lead to overfitting</p>
+
+<h4 id="cart-algorithm-classification-and-regression-trees">CART Algorithm (Classification And Regression Trees)</h4>
+
+<p>CART is an alternative to ID3/C4.5 which extends to include regression, it uses gini index as the metric for classification and uses variance reduction as the metric for regression.</p>
+
+<p>We can compute G(S) for each attribute a, and choose the attribute that minimizes G(S)</p>
+
+<h4 id="cons">Cons</h4>
+
+<p>Decision trees are very powerful tools that they can find complex non-linear relationships in the training data, however, they are also highly sensitive to the training data, which means it has high variance in training. To solve the problem, we may use ensemble techinque.Ensemble</p>
+
+<h3 id="ensemble">Ensemble</h3>
+
+<h3 id="reference">Reference</h3>
+
+<ul>
+  <li>https://win-vector.com/2011/09/14/the-simpler-derivation-of-logistic-regression/</li>
+</ul>]]></content><author><name>GitHub User</name><email>your-email@domain.com</email></author><category term="misc" /><summary type="html"><![CDATA[Linear Models]]></summary></entry></feed>
